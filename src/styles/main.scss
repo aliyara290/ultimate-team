@@ -1,0 +1,209 @@
+@import "./utils/mixins";
+@import "./utils/variables";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+html {
+  font-size: 10px;
+}
+
+.header__content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7rem;
+  background-color: $color-dark;
+  padding: 0 3%;
+  display: flex;
+  align-items: center;
+  z-index: 10042;
+  .logo {
+    img {
+      width: 50px;
+    }
+  }
+}
+
+.main__content {
+  width: 100%;
+
+  .cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: url("/public/images/bg/stadium_background.webp");
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, #000000, #00000055);
+    }
+  }
+  .main__container {
+    padding-top: 7rem;
+    position: relative;
+    display: flex;
+    z-index: 3;
+    .player__card-pic:hover img {
+      filter: drop-shadow(0 0  1rem #2e58939c);
+      cursor: grab;
+    }
+    .line__up {
+      width: 65%;
+      display: flex;
+      justify-content: center;
+      padding: 50px;
+      padding-top: 80px;
+      padding-bottom: 150px;
+
+      .squad__list-content {
+        position: relative;
+        width: 630px;
+        height: 850px;
+        background-color: $color-secondary;
+        box-shadow: 0 0 20px 10px #00000055;
+        border-radius: 10px;
+        .squad__player {
+          position: absolute;
+          z-index: 3267;
+        }
+        #squad__gk {
+          bottom: -50px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        #squad__rb {
+          bottom: 140px;
+          right: 10px;
+        }
+        #squad__crb {
+          bottom: 140px;
+          right: 180px;
+        }
+        #squad__clb {
+          bottom: 140px;
+          left: 180px;
+        }
+        #squad__lb {
+          bottom: 140px;
+          left: 10px;
+        }
+        #squad__rcm {
+          top: 45%;
+          right: 60px;
+          transform: translateY(-50%);
+        }
+        #squad__cdm {
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        #squad__lcm {
+          top: 45%;
+          left: 60px;
+          transform: translateY(-50%);
+        }
+        #squad__rat {
+          top: 120px;
+          right: 60px;
+          transform: translateY(-50%);
+        }
+        #squad__fat {
+          top: 100px;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        #squad__lat {
+          top: 120px;
+          left: 60px;
+          transform: translateY(-50%);
+        }
+        .stadium__lines {
+          width: 100%;
+          height: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .player__state {
+      height: 100vh;
+      width: 35%;
+      background-color: $color-transparent;
+      overflow-y: auto;
+      position: fixed;
+      top: 0;
+      right: 0;
+      padding-top: 7rem;
+      .player__state-content {
+        width: 100%;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        h3 {
+          font-size: $fz-md;
+          color: $color-text-primary;
+        }
+        label {
+          font-size: $fz-sm;
+          color: $color-text-placeholder;
+          margin-bottom: 1rem;
+        }
+        input,
+        select {
+          width: 100%;
+          height: 4.5rem;
+          background-color: $color-secondary;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          border: 0.1rem solid $color-text-placeholder;
+          color: $color-text-placeholder;
+          outline: none;
+          margin-top: 1rem;
+
+          &:focus {
+            border: 0.2rem solid $color-text-primary;
+          }
+        }
+        .o-p-form {
+          form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            .row {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 2rem;
+            }
+          }
+        }
+
+        .substitutes__list {
+          ul {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+          }
+        }
+      }
+    }
+  }
+}

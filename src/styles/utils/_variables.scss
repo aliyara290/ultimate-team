@@ -1,0 +1,40 @@
+// Primary Colors
+$color-background: #2b2a2a;
+$color-dark: #181818;
+$color-primary: #1e1e1e;
+$color-secondary: #222222;
+$color-transparent: #000000a5;
+
+// Text Colors
+$color-text-primary: #fafafa;
+$color-text-placeholder: #969696;
+
+$fz-xxs: 0.8rem;
+$fz-xs: 1rem;
+$fz-sm: 1.2rem;
+$fz-md: 1.5rem;
+$fz-lg: 2rem;
+$fz-xl: 2.4rem;
+$fz-xxl: 3.2rem;
+$fz-xxxl: 4.8rem;
+
+
+::-webkit-scrollbar {
+    width: 1px;
+    }
+    
+    ::-webkit-scrollbar-track {
+    background: transparent;
+    box-shadow: none;
+    }
+    ::-webkit-scrollbar-thumb {
+    background: $color-primary;
+    
+    border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+    }
+    ::-webkit-scrollbar-track-piece {
+    border: none;
+    }
