@@ -20,6 +20,7 @@ html {
   background-color: $color-dark;
   padding: 0 3%;
   display: flex;
+  justify-content: center;
   align-items: center;
   z-index: 10042;
   .logo {
@@ -57,10 +58,14 @@ html {
     position: relative;
     display: flex;
     z-index: 3;
-    .player__card-pic:hover img {
-      filter: drop-shadow(0 0  1rem #2e58939c);
-      cursor: grab;
-    }
+    // .player__card-pic {
+    //   transition: transform 1s ease;
+    // }
+    // .squad__player:hover .player__card-pic {
+    //   filter: drop-shadow(0 0 1rem #2e58939c);
+    //   cursor: grab;
+    //   transform: rotateY(360deg);
+    // }
     .line__up {
       width: 65%;
       display: flex;
@@ -71,67 +76,208 @@ html {
 
       .squad__list-content {
         position: relative;
-        width: 630px;
-        height: 850px;
+        width: 680px;
+        // height: 850px;
         background-color: $color-secondary;
         box-shadow: 0 0 20px 10px #00000055;
-        border-radius: 10px;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-template-areas:
+          ". lat lat fat fat rat rat ."
+          ". lcm lcm cdm cdm rcm rcm ."
+          "lb lb clb clb crb crb rb rb"
+          ". . . gk gk . . .";
+        gap: 3rem;
+        padding: 3rem;
+        &:hover {
+          grid-template-areas:
+          ". lat lat fat fat rat rat ."
+          "lcm lcm cdm cdm rcm rcm crb crb"
+          ". lb lb clb clb rb rb ."
+          ". . . gk gk . . .";
+        }
+        transition: grid-template-areas 2s ease;
         .squad__player {
-          position: absolute;
-          z-index: 3267;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          z-index: 3;
+          .player__card-pic {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            // padding: 2rem;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: fill;
+            }
+            .player__stats {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              // background-color: blue;
+              .player__picture {
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
+                }
+              }
+              .player__rating {
+                position: absolute;
+                top: 2.7rem;
+                left: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.1rem;
+                .player__rating-rate {
+                  font-size: $fz-md;
+                  font-weight: 600;
+                  color: $color-text-primary;
+                }
+                .player__rating-position {
+                  font-size: $fz-sm;
+                  font-weight: 600;
+                  color: $color-text-primary;
+                }
+              }
+              .player__infos {
+                position: absolute;
+                bottom: 13px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+                color: $color-text-primary;
+                .player__infos-name {
+                  display: flex;
+                  justify-content: center;
+                  span {
+                    font-size: $fz-md;
+                    font-weight: 600;
+                    line-height: 1;
+                    text-shadow: 1px 1px #0000006c;
+                  }
+                }
+                .player__infos-stats {
+                  ul {
+                    display: flex;
+                    gap: 0.3rem;
+                    li {
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      gap: 0.2rem;
+                      span {
+                        font-size: $fz-xxs;
+                        line-height: 1;
+                        &:last-child {
+                          font-weight: 700;
+                          font-size: $fz-xs;
+                        }
+                      }
+                    }
+                  }
+                }
+                .player__infos-row {
+                  ul {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem;
+                    li {
+                      list-style-type: none;
+                      img {
+                        width: 10px;
+                        height: 10px;
+                        object-fit: fill;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         #squad__gk {
-          bottom: -50px;
-          left: 50%;
-          transform: translateX(-50%);
+          display: flex;
+          justify-content: center;
+          align-items: end;
+          grid-area: gk;
         }
         #squad__rb {
-          bottom: 140px;
-          right: 10px;
+          grid-area: rb;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         #squad__crb {
-          bottom: 140px;
-          right: 180px;
+          grid-area: crb;
+          display: flex;
+          justify-content: center;
+          align-items: end;
         }
         #squad__clb {
-          bottom: 140px;
-          left: 180px;
+          grid-area: clb;
+          display: flex;
+          justify-content: center;
+          align-items: end;
         }
         #squad__lb {
-          bottom: 140px;
-          left: 10px;
+          grid-area: lb;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         #squad__rcm {
-          top: 45%;
-          right: 60px;
-          transform: translateY(-50%);
+          grid-area: rcm;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         #squad__cdm {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          grid-area: cdm;
+          display: flex;
+          justify-content: center;
+          align-items: end;
         }
         #squad__lcm {
-          top: 45%;
-          left: 60px;
-          transform: translateY(-50%);
+          grid-area: lcm;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         #squad__rat {
-          top: 120px;
-          right: 60px;
-          transform: translateY(-50%);
+          grid-area: rat;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         #squad__fat {
-          top: 100px;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          grid-area: fat;
+          display: flex;
+          justify-content: center;
+          align-items: end;
         }
         #squad__lat {
-          top: 120px;
-          left: 60px;
-          transform: translateY(-50%);
+          grid-area: lat;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .stadium__lines {
+          position: absolute;
+          z-index: 0;
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
           img {
@@ -177,10 +323,17 @@ html {
           color: $color-text-placeholder;
           outline: none;
           margin-top: 1rem;
-
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
           &:focus {
             border: 0.2rem solid $color-text-primary;
           }
+        }
+        .add__player {
+          display: flex;
+          flex-direction: column;
+          gap: 3rem;
         }
         .o-p-form {
           form {
