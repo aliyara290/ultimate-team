@@ -10,6 +10,12 @@
 html {
   font-size: 10px;
 }
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
 
 .header__content {
   position: fixed;
@@ -18,6 +24,7 @@ html {
   width: 100%;
   height: 7rem;
   background-color: $color-dark;
+  // background-color: red;
   padding: 0 3%;
   display: flex;
   justify-content: center;
@@ -39,7 +46,7 @@ html {
     left: 0;
     width: 100%;
     height: 100dvh;
-    background: url("/public/images/bg/stadium_background.webp");
+    background: url("/public/images/bg/stadium_background.jpg");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -58,27 +65,23 @@ html {
     position: relative;
     display: flex;
     z-index: 3;
-    // .player__card-pic {
-    //   transition: transform 1s ease;
-    // }
-    // .squad__player:hover .player__card-pic {
-    //   filter: drop-shadow(0 0 1rem #2e58939c);
-    //   cursor: grab;
-    //   transform: rotateY(360deg);
-    // }
+    .player__card-pic {
+      transition: transform 0.7s ease;
+    }
+    .squad__player:hover .player__card-pic {
+      filter: drop-shadow(0 0 1rem #1552a87d);
+      cursor: grab;
+      // transform: rotateY(360deg);
+    }
     .line__up {
       width: 65%;
       display: flex;
       justify-content: center;
-      padding: 50px;
-      padding-top: 80px;
-      padding-bottom: 150px;
+      padding: 80px;
 
       .squad__list-content {
         position: relative;
-        width: 680px;
-        // height: 850px;
-        background-color: $color-secondary;
+        width: 80rem;
         box-shadow: 0 0 20px 10px #00000055;
         display: grid;
         grid-template-columns: repeat(8, 1fr);
@@ -88,124 +91,19 @@ html {
           ". lcm lcm cdm cdm rcm rcm ."
           "lb lb clb clb crb crb rb rb"
           ". . . gk gk . . .";
-        gap: 3rem;
+        gap: 6rem 3rem;
         padding: 3rem;
-        &:hover {
-          grid-template-areas:
-          ". lat lat fat fat rat rat ."
-          "lcm lcm cdm cdm rcm rcm crb crb"
-          ". lb lb clb clb rb rb ."
-          ". . . gk gk . . .";
-        }
         transition: grid-template-areas 2s ease;
+        border-radius: 15px;
+        overflow: hidden;
         .squad__player {
           width: 100%;
           height: 100%;
           position: relative;
           z-index: 3;
-          .player__card-pic {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            // padding: 2rem;
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: fill;
-            }
-            .player__stats {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              // background-color: blue;
-              .player__picture {
-                img {
-                  width: 100%;
-                  height: 100%;
-                  object-fit: contain;
-                }
-              }
-              .player__rating {
-                position: absolute;
-                top: 2.7rem;
-                left: 1.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.1rem;
-                .player__rating-rate {
-                  font-size: $fz-md;
-                  font-weight: 600;
-                  color: $color-text-primary;
-                }
-                .player__rating-position {
-                  font-size: $fz-sm;
-                  font-weight: 600;
-                  color: $color-text-primary;
-                }
-              }
-              .player__infos {
-                position: absolute;
-                bottom: 13px;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                flex-direction: column;
-                gap: 0.2rem;
-                color: $color-text-primary;
-                .player__infos-name {
-                  display: flex;
-                  justify-content: center;
-                  span {
-                    font-size: $fz-md;
-                    font-weight: 600;
-                    line-height: 1;
-                    text-shadow: 1px 1px #0000006c;
-                  }
-                }
-                .player__infos-stats {
-                  ul {
-                    display: flex;
-                    gap: 0.3rem;
-                    li {
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                      gap: 0.2rem;
-                      span {
-                        font-size: $fz-xxs;
-                        line-height: 1;
-                        &:last-child {
-                          font-weight: 700;
-                          font-size: $fz-xs;
-                        }
-                      }
-                    }
-                  }
-                }
-                .player__infos-row {
-                  ul {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 0.5rem;
-                    li {
-                      list-style-type: none;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                        object-fit: fill;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          // &:hover {
+          //   transform: scale(1.2);
+          // }
         }
         #squad__gk {
           display: flex;
@@ -280,10 +178,128 @@ html {
           left: 0;
           width: 100%;
           height: 100%;
+          background-color: $color-secondary;
+
           img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+          }
+        }
+      }
+    }
+    .player__card-pic {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      // padding: 2rem;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+      }
+      .player__stats {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // background-color: blue;
+        .player__picture {
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .player__rating {
+          position: absolute;
+          top: 3.2rem;
+          left: 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.1rem;
+          .player__rating-rate {
+            font-size: $fz-lg;
+            font-weight: 600;
+            color: $color-text-primary;
+          }
+          .player__rating-position {
+            font-size: $fz-sm;
+            font-weight: 600;
+            color: $color-text-primary;
+            text-transform: uppercase;
+          }
+        }
+        .player__infos {
+          position: absolute;
+          bottom: 2rem;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          color: $color-text-primary;
+          background: linear-gradient(
+            to bottom,
+            transparent,
+            #0c06ba,
+            transparent
+          );
+          width: 85%;
+          padding-top: 2.5rem;
+          .player__infos-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span {
+              font-size: $fz-md;
+              font-weight: 600;
+              line-height: 1;
+              text-align: center;
+            }
+          }
+          .player__infos-stats {
+            ul {
+              display: flex;
+              justify-content: center;
+              gap: 0.5rem;
+              li {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem;
+                span {
+                  font-size: $fz-xs;
+                  line-height: 1;
+                  font-weight: 600;
+                  &:last-child {
+                    font-weight: 700;
+                    font-size: $fz-sm;
+                  }
+                }
+              }
+            }
+          }
+          .player__infos-row {
+            ul {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 0.5rem;
+              margin-top: 0.4rem;
+              li {
+                list-style-type: none;
+                img {
+                  width: 10px;
+                  height: 10px;
+                  object-fit: fill;
+                }
+              }
+            }
           }
         }
       }
@@ -330,12 +346,25 @@ html {
             border: 0.2rem solid $color-text-primary;
           }
         }
+        select {
+          cursor: pointer;
+        }
         .add__player {
           display: flex;
           flex-direction: column;
           gap: 3rem;
         }
+        // #goolkeeper__form.active {
+        //   display: block;
+        // }
+        // #goolkeeper__form {
+        //   display: none;
+        // }
+        // .o-p-form.active {
+        //   display: block;
+        // }
         .o-p-form {
+          // display: none;
           form {
             display: flex;
             flex-direction: column;
@@ -345,18 +374,165 @@ html {
               grid-template-columns: repeat(3, 1fr);
               gap: 2rem;
             }
+            .add__player-btn {
+              display: flex;
+              flex-direction: column;
+              justify-content: end;
+              button {
+                height: 4.5rem;
+                width: 100%;
+                padding: 0 2rem;
+                background-color: rgb(70, 112, 236);
+                color: $color-text-primary;
+                border: none;
+                outline: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                font-size: $fz-md;
+                font-weight: 500;
+                &:hover {
+                  background-color: rgb(31, 69, 183);
+                }
+              }
+            }
           }
         }
 
         .substitutes__list {
-          ul {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+          margin-top: 2rem;
+          #substitutes__list {
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
+            .sub__list-item {
+              width: 100%;
+              background: linear-gradient(
+                to right,
+                rgb(111, 12, 12),
+                rgb(2, 29, 47)
+              );
+              // padding: 1rem;
+              border-radius: 1rem;
+              display: grid;
+              grid-template-columns: repeat(6, 1fr);
+              position: relative;
+              overflow: hidden;
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url("/public/images/card-templates/sub-bg.png");
+                background-position: center;
+                background-size: cover;
+                z-index: 0;
+              }
+              .sub__right-part {
+                position: relative;
+                grid-column: span 2 / span 2;
+                .player__id-pic {
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  height: 100%;
+                  width: 100%;
+                  img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                  }
+                }
+                .player__id-rating {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  font-size: $fz-lg;
+                  color: $color-text-primary;
+                  font-weight: 700;
+                  background-color: #000000b5;
+                  padding: 1rem;
+                  border-bottom-right-radius: 1rem;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 0.3rem;
+                  span {
+                    &:last-child {
+                      font-size: $fz-sm;
+                      text-transform: uppercase;
+                    }
+                  }
+                }
+              }
+              .sub__left-part {
+                grid-column: span 4 / span 4;
+                padding: 2rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+                position: relative;
+                z-index: 5432;
+                .player__id-name {
+                  font-size: $fz-lg;
+                  color: $color-text-primary;
+                  font-weight: 600;
+                }
+
+                .player__sub-stats {
+                  ul {
+                    display: flex;
+                    align-items: start;
+                    gap: 1rem;
+                    li {
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      gap: 0.2rem;
+                      span {
+                        color: $color-text-primary;
+                        font-size: $fz-sm;
+                        &:last-child {
+                          font-size: $fz-md;
+                          font-weight: 600;
+                        }
+                      }
+                    }
+                  }
+                }
+                .player__sub-row {
+                  ul {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    li {
+                      img {
+                        width: 25px;
+                        height: 25px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
+  }
+}
+
+#sort {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  li {
+    width: 100%;
+    height: 50px;
+    background-color: red;
   }
 }
