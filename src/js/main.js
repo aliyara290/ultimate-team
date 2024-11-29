@@ -1,80 +1,132 @@
-const dropItems = document.querySelector("#sortable_cards");
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize Sortable for defenders
+  const dropItems = document.querySelector(".defenders");
   if (dropItems) {
     new Sortable(dropItems, {
       animation: 350,
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
       handle: ".squad__player",
-      onSort: reportActivity
+      group: 'shared',
+      swap: true,
+      onSort: reportActivity,
     });
-  } else {
-    console.error("#sortable_cards not found in the DOM");
   }
 
-  const savedFormation = localStorage.getItem("formation");
-  if (savedFormation) {
-    formation.value = savedFormation;
-    updateFormationLayout(savedFormation);
+  // Initialize Sortable for midfielders
+  const midifielder = document.querySelector(".midifielder");
+  if (midifielder) {
+    new Sortable(midifielder, {
+      animation: 350,
+      chosenClass: "sortable-chosen",
+      dragClass: "sortable-drag",
+      handle: ".squad__player",
+      group: 'shared',
+      swap: true,
+    });
+  }
+
+  // Initialize Sortable for attackers
+  const attackers = document.querySelector(".attackers");
+  if (attackers) {
+    new Sortable(attackers, {
+      animation: 350,
+      chosenClass: "sortable-chosen",
+      dragClass: "sortable-drag",
+      group: 'shared',
+      swap: true,
+    });
+  }
+
+  // Initialize Sortable for the pitch
+  const pitch = document.querySelector(".pitch");
+  if (pitch) {
+    console.log("Initializing Sortable for pitch", pitch); // Debugging log
+    new Sortable(pitch, {
+      animation: 350,
+      chosenClass: "sortable-chosen",
+      dragClass: "sortable-drag",
+      handle: ".squad__player",
+      group: 'shared',
+      swap: true,
+      onSort: reportActivity,
+    });
+  } else {
+    console.error("Element '.pitch' not found in the DOM."); // Debugging log
   }
 });
 
+// Function to report activity
 function reportActivity() {
-  console.log('The sort order has changed');
+  console.log("The sort order has changed");
 }
+
 
 // handle player card setting toggle
 
-const formation = document.querySelector("#formation");
-const squadList = document.querySelector(".squad__list-content");
+// const formation = document.querySelector("#formation");
+// const squadList = document.querySelector(".squad__list-content");
 
-// Squad Formation
-formation.addEventListener("change", (e) => {
-  const target = e.target.value;
+// const savedFormation = localStorage.getItem("formation");
+// if (savedFormation) {
+//   formation.value = savedFormation;
+//   updateFormationLayout(savedFormation);
+// }
 
-  localStorage.setItem("formation", target);
+// // Squad Formation
+// formation.addEventListener("change", (e) => {
+//   const target = e.target.value;
 
-  updateFormationLayout(target);
-});
+//   localStorage.setItem("formation", target);
 
-function updateFormationLayout(target) {
-  squadList.style.gridTemplateColumns = "repeat(8, 1fr)";
+//   updateFormationLayout(target);
+// });
 
-  switch (target) {
-    case "433":
-      squadList.style.gridTemplateAreas = `
-        ". lat lat fat fat rat rat ."
-        ". lcm lcm cdm cdm rcm rcm ."
-        "lb lb clb clb crb crb rb rb"
-        ". . . gk gk . . ."
-      `;
-      break;
+// function updateFormationLayout(target) {
+//   switch (target) {
+//     case "433":
+//       squadList.style.gridTemplateAreas = `
+//         ". lat lat fat fat rat rat ."
+//         ". lcm lcm cdm cdm rcm rcm ."
+//         "lb lb clb clb crb crb rb rb"
+//         ". . . gk gk . . ."
+//       `;
+//       break;
 
-    case "442":
-      squadList.style.gridTemplateAreas = `
-        ". . lat lat fat fat . ."
-        "lcm lcm cdm cdm rcm rcm rat rat"
-        "lb lb clb clb crb crb rb rb"
-        ". . . gk gk . . ."
-      `;
-      break;
+//     case "442":
+//       squadList.style.gridTemplateAreas = `
+//         ". . lat lat fat fat . ."
+//         "lcm lcm cdm cdm rcm rcm rat rat"
+//         "lb lb clb clb crb crb rb rb"
+//         ". . . gk gk . . ."
+//       `;
+//       break;
 
-    case "343":
-      squadList.style.gridTemplateAreas = `
-        ". lat lat fat fat rat rat ."
-        "lcm lcm cdm cdm rcm rcm crb crb"
-        ". lb lb clb clb rb rb ."
-        ". . . gk gk . . ."
-      `;
-      break;
+//     case "343":
+//       squadList.style.gridTemplateAreas = `
+//         ". lat lat fat fat rat rat ."
+//         "lcm lcm cdm cdm rcm rcm crb crb"
+//         ". lb lb clb clb rb rb ."
+//         ". . . gk gk . . ."
+//       `;
+//       break;
 
-    default:
-      console.warn("Unknown formation selected:", target);
-      break;
-  }
-}
+//     default:
+//       squadList.style.gridTemplateAreas = `
+//         ". lat lat fat fat rat rat ."
+//         ". lcm lcm cdm cdm rcm rcm ."
+//         "lb lb clb clb crb crb rb rb"
+//         ". . . gk gk . . ."
+//       `;
+//       break;
+//   }
+// }
 
-let players = [];
+let players = JSON.parse(localStorage.getItem("players")) || [];
+
+const addSubstitutionData = () => {
+  localStorage.setItem("substitution", JSON.stringify(substitution));
+};
 
 const selectPosition = document.querySelector("#o-player-position");
 const stateLabels = document.querySelectorAll(".player__state-inp label");
@@ -107,13 +159,6 @@ selectPosition.addEventListener("change", (e) => {
   }
 });
 
-const getPlayerData = () => {
-  const storedPlayers = localStorage.getItem("players");
-  if (storedPlayers) {
-    players = JSON.parse(storedPlayers);
-  }
-};
-
 const savePlayers = () => {
   localStorage.setItem("players", JSON.stringify(players));
 };
@@ -121,8 +166,8 @@ const savePlayers = () => {
 const playerForm = document.querySelector("#player__form");
 playerForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const player = {
+    occupeid: false,
     id: Date.now().toString(),
     name: document.getElementById("o-player-name").value,
     nationalite: document.getElementById("o-player-nationalite").value,
@@ -137,31 +182,24 @@ playerForm.addEventListener("submit", (e) => {
     rating: document.getElementById("o-player-rating").value,
   };
 
-  const existingPlayerIndex = players.findIndex((p) => p.name === player.name);
-
-  if (existingPlayerIndex !== -1) {
-    players[existingPlayerIndex] = player;
-  } else {
-    players.push(player);
-  }
+  players.push(player);
 
   savePlayers();
   showPlayerCard();
   playerForm.reset();
+  location.reload()
+
 });
 
-
-
+// deletePlayer()
 
 const showPlayerCard = () => {
   const substitute = document.querySelector("#substitutes__list");
-  substitute.innerHTML = "";
-
-  const positions = document.querySelectorAll(".squad__position");
-  positions.forEach((pos) => {
-    pos.classList.remove("active");
-    pos.innerHTML = "";
-  });
+  // const positions = document.querySelectorAll(".squad__position");
+  // positions.forEach((pos) => {
+  //   pos.classList.remove("active");
+  //   pos.innerHTML = "";
+  // });
 
   players.forEach((player) => {
     let playerCard = document.createElement("div");
@@ -344,74 +382,128 @@ const showPlayerCard = () => {
                   </div>
     `;
 
-    const subPlayerCard = document.createElement("div");
-    subPlayerCard.className = "sub__list-item";
-    subPlayerCard.setAttribute("draggable", "true");
-    subPlayerCard.innerHTML = `
-     <div class="sub__right-part">
-            <div class="player__id-pic">
-                <img src="./images/players-pics/vini.png" alt="" />
-            </div>
-            <div class="player__id-rating">
-                <span>${player.rating}</span>
-                <span>${player.position}</span>
-            </div>
-            </div>
-            <div class="sub__left-part">
-            <div class="player__id-name">
-                <span>${player.name}</span>
-            </div>
-            <div class="player__sub-stats">
-                <ul>
-                <li><span>PAC</span><span>${player.pace}</span></li>
-                <li><span>SHO</span><span>${player.passing}</span></li>
-                <li><span>PAS</span><span>${player.dribbling}</span></li>
-                <li><span>DRI</span><span>${player.defending}</span></li>
-                <li><span>DEF</span><span>${player.physical}</span></li>
-                <li><span>PHY</span><span>${player.rating}</span></li>
-                </ul>
-            </div>
-            <div class="player__sub-row">
-        <ul>
-        <li>
-        <img
-            src=./images/flags/countries/${player.nationalite}.png
-            alt=""
-            id="player__infos-nationalite"
-        />
-        </li>
-        <li>
-        <img
-            src="./images/flags/leagues/${player.league}.png"
-            alt=""
-            id="player__infos-league"
-        />
-        </li>
-        <li>
-        <img
-            src="./images/flags/clubs/${player.club}.png"
-            alt=""
-            id="player__infos-club"
-        />
-        </li>
-    </ul>
-        </div>
-            </div>      
-    `;
-
-    const playerPosition = (positionId, playerCard, subPlayerCard) => {
+    // const renderSubstitutes = (substituteContainer) => {
+    //   const availablePlayers = players.filter((player) => !player.occupeid);
+    //   substituteContainer.innerHTML = "";
+    //   availablePlayers.forEach((pl) => {
+    //     const subPlayerCard = document.createElement("div");
+    //     subPlayerCard.className = "sub__list-item";
+    //     subPlayerCard.setAttribute("draggable", "true");
+    //     subPlayerCard.innerHTML = `
+    //     <div class="sub__right-part">
+    //            <div class="player__id-pic">
+    //                <img src="./images/players-pics/vini.png" alt="" />
+    //            </div>
+    //            <div class="player__id-rating">
+    //                <span>${pl.rating}</span>
+    //                <span>${pl.position}</span>
+    //            </div>
+    //            </div>
+    //            <div class="sub__left-part">
+    //            <div class="player__id-name">
+    //                <span>${pl.name}</span>
+    //            </div>
+    //            <div class="player__sub-stats">
+    //                <ul>
+    //                <li><span>PAC</span><span>${pl.pace}</span></li>
+    //                <li><span>SHO</span><span>${pl.passing}</span></li>
+    //                <li><span>PAS</span><span>${pl.dribbling}</span></li>
+    //                <li><span>DRI</span><span>${pl.defending}</span></li>
+    //                <li><span>DEF</span><span>${pl.physical}</span></li>
+    //                <li><span>PHY</span><span>${pl.rating}</span></li>
+    //                </ul>
+    //            </div>
+    //            <div class="player__sub-row">
+    //        <ul>
+    //        <li>
+    //        <img
+    //            src=./images/flags/countries/${pl.nationalite}.png
+    //            alt=""
+    //            id="player__infos-nationalite"
+    //        />
+    //        </li>
+    //        <li>
+    //        <img
+    //            src="./images/flags/leagues/${pl.league}.png"
+    //            alt=""
+    //            id="player__infos-league"
+    //        />
+    //        </li>
+    //        <li>
+    //        <img
+    //            src="./images/flags/clubs/${pl.club}.png"
+    //            alt=""
+    //            id="player__infos-club"
+    //        />
+    //        </li>
+    //    </ul>
+    //        </div>
+    //            </div>      
+    //    `;
+    //     substituteContainer.appendChild(subPlayerCard);
+    //   });
+    // };
+    const playerPosition = (positionId, playerCard) => {
       const positionElement = document.getElementById(positionId);
-
       if (positionElement.classList.contains("active")) {
-        // const currentPlayerCard = positionElement.querySelector(".player__card-pic");
-        // if (currentPlayerCard) {
-        //   // const subCard = document.createElement("div");
-        //   // subCard.className = "sub__list-item";
-        //   // subCard.innerHTML = currentPlayerCard.innerHTML;
-        //   // substitute.appendChild(subCard);
-        // }
-        substitute.appendChild(subPlayerCard);
+        // renderSubstitutes(substitute);
+        const subPlayerCard = document.createElement("div");
+        subPlayerCard.className = "sub__list-item";
+        subPlayerCard.setAttribute("draggable", "true");
+        subPlayerCard.innerHTML = `
+        <div class="sub__right-part">
+               <div class="player__id-pic">
+                   <img src="./images/players-pics/vini.png" alt="" />
+               </div>
+               <div class="player__id-rating">
+                   <span>${player.rating}</span>
+                   <span>${player.position}</span>
+               </div>
+               </div>
+               <div class="sub__left-part">
+               <div class="player__id-name">
+                   <span>${player.name}</span>
+               </div>
+               <div class="player__sub-stats">
+                   <ul>
+                   <li><span>PAC</span><span>${player.pace}</span></li>
+                   <li><span>SHO</span><span>${player.passing}</span></li>
+                   <li><span>PAS</span><span>${player.dribbling}</span></li>
+                   <li><span>DRI</span><span>${player.defending}</span></li>
+                   <li><span>DEF</span><span>${player.physical}</span></li>
+                   <li><span>PHY</span><span>${player.rating}</span></li>
+                   </ul>
+               </div>
+               <div class="player__sub-row">
+           <ul>
+           <li>
+           <img
+               src=./images/flags/countries/${player.nationalite}.png
+               alt=""
+               id="player__infos-nationalite"
+           />
+           </li>
+           <li>
+           <img
+               src="./images/flags/leagues/${player.league}.png"
+               alt=""
+               id="player__infos-league"
+           />
+           </li>
+           <li>
+           <img
+               src="./images/flags/clubs/${player.club}.png"
+               alt=""
+               id="player__infos-club"
+           />
+           </li>
+       </ul>
+           </div>
+               </div>      
+       `;
+        substitute.appendChild(playerCard);
       } else {
+        player.occupeid = true; // Mark as occupied
         positionElement.classList.add("active");
         positionElement.innerHTML = "";
         positionElement.appendChild(playerCard);
@@ -420,74 +512,68 @@ const showPlayerCard = () => {
 
     switch (player.position) {
       case "gk":
-        playerPosition("squad__gk", playerCard, subPlayerCard);
+        playerPosition("squad__gk", playerCard);
         break;
       case "clb":
-        playerPosition("squad__clb", playerCard, subPlayerCard);
+        playerPosition("squad__clb", playerCard);
         break;
       case "crb":
-        playerPosition("squad__crb", playerCard, subPlayerCard);
+        playerPosition("squad__crb", playerCard);
         break;
       case "lb":
-        playerPosition("squad__lb", playerCard, subPlayerCard);
+        playerPosition("squad__lb", playerCard);
         break;
       case "rb":
-        playerPosition("squad__rb", playerCard, subPlayerCard);
+        playerPosition("squad__rb", playerCard);
         break;
       case "rcm":
-        playerPosition("squad__rcm", playerCard, subPlayerCard);
+        playerPosition("squad__rcm", playerCard);
         break;
       case "lcm":
-        playerPosition("squad__lcm", playerCard, subPlayerCard);
+        playerPosition("squad__lcm", playerCard);
         break;
       case "am":
-        playerPosition("squad__cdm", playerCard, subPlayerCard);
+        playerPosition("squad__cdm", playerCard);
         break;
       case "lw":
-        playerPosition("squad__lat", playerCard, subPlayerCard);
+        playerPosition("squad__lat", playerCard);
         break;
       case "rw":
-        playerPosition("squad__rat", playerCard, subPlayerCard);
+        playerPosition("squad__rat", playerCard);
         break;
       case "cf":
-        playerPosition("squad__fat", playerCard, subPlayerCard);
-        break;
-      default:
-        substitute.appendChild(subPlayerCard);
+        playerPosition("squad__fat", playerCard);
         break;
     }
+    // console.log(player);
+  });
+  const settingIcon = document.querySelectorAll(".setting__icon");
+  settingIcon.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      let parent = icon.parentElement;
+      parent.classList.toggle("active");
+    });
+  });
+
+  const deleteBtn = document.querySelectorAll(".delete__player-icon");
+  deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let getPlayerId = btn.getAttribute("data-id");
+      console.log("hello");
+
+      const playerIndex = players.findIndex(
+        (player) => player.id === getPlayerId
+      );
+
+      if (playerIndex !== -1) {
+        players.splice(playerIndex, 1);
+        savePlayers();
+        location.reload();
+        console.log(`Player with ID ${getPlayerId} deleted successfully.`);
+      } else {
+        console.warn(`Player with ID ${getPlayerId} not found.`);
+      }
+    });
   });
 };
-
-getPlayerData();
 showPlayerCard();
-
-const settingIcon = document.querySelectorAll(".setting__icon");
-settingIcon.forEach((icon) => {
-  icon.addEventListener("click", () => {
-    let parent = icon.parentElement;
-    parent.classList.toggle("active");
-    console.log(parent);
-  });
-});
-
-
-const deletePlayer = (e) => {
-  let target = e.target;
-  let getPlayerId = target.getAttribute("data-id");
-  console.log(getPlayerId);
-
-  const playerIndex = players.findIndex((player) => player.id === getPlayerId);
-
-  if (playerIndex !== -1) {
-    players.splice(playerIndex, 1); 
-    savePlayers(); 
-    showPlayerCard();
-    console.log(`Player with ID ${getPlayerId} deleted successfully.`);
-  } else {
-    console.warn(`Player with ID ${getPlayerId} not found.`);
-  }
-}
-
-const deleteBtn = document.querySelector(".delete__player-icon");
-deleteBtn.addEventListener("click", deletePlayer)
