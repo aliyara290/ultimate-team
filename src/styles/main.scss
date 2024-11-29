@@ -214,6 +214,46 @@ a {
             object-fit: contain;
           }
         }
+        .player__setting.active .st__icon {
+          display: flex;
+          transform: scale(1);
+        }
+        .player__setting {
+          position: absolute;
+          right: 0;
+          top: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          z-index: 20;
+          cursor: pointer;
+          .setting__icon {
+            &:hover svg {
+              .cls-1 {
+                fill: #300fb3;
+              }
+            }
+          }
+          .st__icon {
+            width: 30px;
+            height: 30px;
+            background-color: #4e28eb;
+            border-radius: 0.4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 12px 1px #130353a1;
+            transform: scale(0.1);
+            transition: transform 0.4s ease;
+            display: none;
+            &:hover {
+              background-color: #300fb3;
+            }
+            svg {
+              fill: $color-text-primary;
+            }
+          }
+        }
         .player__rating {
           position: absolute;
           top: 3.2rem;
