@@ -18,7 +18,6 @@
           <div class="squad__list">
             <div class="squad__list-content" id="sortable_cards">
               <div class="attackers">
-               
                 <div id="squad__lat" class="squad__player" data-area="lat">
                   <div class="player__card-pic">
                     <img
@@ -116,7 +115,7 @@
                     />
                   </div>
                 </div>
-               
+
                 <div id="squad__rcm" class="squad__player" data-area="rcm">
                   <div class="player__card-pic">
                     <img
@@ -164,15 +163,16 @@
                     />
                   </div>
                 </div>
-                
               </div>
-              <div id="squad__gk" class="squad__player" data-area="gk">
-                <div class="player__card-pic">
-                  <img
-                    src="./images/card-templates/default-bg.png"
-                    width="100px"
-                    alt=""
-                  />
+              <div class="goolkeeper">
+                <div id="squad__gk" class="squad__player" data-area="gk">
+                  <div class="player__card-pic">
+                    <img
+                      src="./images/card-templates/default-bg.png"
+                      width="100px"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </div>
               <div class="stadium__lines">
@@ -181,9 +181,11 @@
             </div>
           </div>
           <div class="substitutes">
-            <h3>Substitutes</h3>
+            <div class="sub__heading">
+              <h3>Substitutes</h3>
+            </div>
             <div class="substitutes__list">
-              <ul id="substitutes__list" class="pitch"></ul>
+              <div id="substitutes__list" class="pitch"></div>
             </div>
           </div>
         </div>
@@ -194,8 +196,6 @@
               <select name="formation" id="formation">
                 <option value="433">433</option>
                 <option value="442">442</option>
-                <option value="343">343</option>
-                <!-- <option value="352">352</option> -->
               </select>
             </div>
             <div class="add__player">
@@ -305,11 +305,11 @@
                       />
                     </div>
                     <div class="player__state-inp">
-                      <label for="o-player-pace">Shooting</label>
+                      <label for="o-player-shooting">Shooting</label>
                       <input
                         type="number"
-                        name="o-player-pace"
-                        id="o-player-pace"
+                        name="o-player-shooting"
+                        id="o-player-shooting"
                       />
                     </div>
                     <div class="player__state-inp">
@@ -349,18 +349,27 @@
                     <div class="add__player-btn">
                       <button type="submit">Add player</button>
                     </div>
+                    <div class="add__player-btn update__player">
+                      <button>update player</button>
+                    </div>
                   </div>
                 </form>
               </div>
             </div>
-           
           </div>
         </div>
       </div>
       <div class="cover"></div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script type="text/javascript" src="../src/js/vanilla-tilt.js"></script>
     <script src="../src/js/main.js"></script>
-  
+    <script type="text/javascript">
+      VanillaTilt.init(document.querySelectorAll(".player__card-pic"), {
+        max: 15,
+        speed: 100,
+        scale: 1.1,
+      });
+    </script>
   </body>
 </html>
