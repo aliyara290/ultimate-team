@@ -1,3 +1,4 @@
+// drag and drop functinalite using Sortable.js libraray
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize Sortable for defenders
   const dropItems = document.querySelector(".defenders");
@@ -7,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
       handle: ".squad__player",
-      group: 'shared',
+      group: "shared",
       swap: true,
       onSort: reportActivity,
     });
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
       handle: ".squad__player",
-      group: 'shared',
+      group: "shared",
       swap: true,
     });
   }
@@ -33,99 +34,104 @@ document.addEventListener("DOMContentLoaded", function () {
       animation: 350,
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
-      group: 'shared',
+      group: "shared",
       swap: true,
     });
   }
 
   // Initialize Sortable for the pitch
-  const pitch = document.querySelector(".pitch");
+  const pitch = document.querySelector("#substitutes__list");
   if (pitch) {
     console.log("Initializing Sortable for pitch", pitch); // Debugging log
     new Sortable(pitch, {
-      animation: 350,
+      animation: 400,
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
-      handle: ".squad__player",
-      group: 'shared',
+      group: "shared",
       swap: true,
-      onSort: reportActivity,
     });
-  } else {
-    console.error("Element '.pitch' not found in the DOM."); // Debugging log
+  }
+  const goolkeeper = document.querySelector(".goolkeeper");
+  if (goolkeeper) {
+    console.log("Initializing Sortable for pitch", goolkeeper); // Debugging log
+    new Sortable(goolkeeper, {
+      animation: 400,
+      chosenClass: "sortable-chosen",
+      dragClass: "sortable-drag",
+      group: "shared",
+      swap: true,
+    });
   }
 });
-
-// Function to report activity
 function reportActivity() {
   console.log("The sort order has changed");
 }
 
+const formation = document.querySelector("#formation");
+const squadList = document.querySelector(".squad__list-content");
 
-// handle player card setting toggle
+const savedFormation = localStorage.getItem("formation");
+if (savedFormation) {
+  formation.value = savedFormation;
+  updateFormationLayout(savedFormation);
+}
 
-// const formation = document.querySelector("#formation");
-// const squadList = document.querySelector(".squad__list-content");
+// Squad Formation
+formation.addEventListener("change", (e) => {
+  const target = e.target.value;
 
-// const savedFormation = localStorage.getItem("formation");
-// if (savedFormation) {
-//   formation.value = savedFormation;
-//   updateFormationLayout(savedFormation);
-// }
+  localStorage.setItem("formation", target);
 
-// // Squad Formation
-// formation.addEventListener("change", (e) => {
-//   const target = e.target.value;
+  updateFormationLayout(target);
+});
 
-//   localStorage.setItem("formation", target);
+function updateFormationLayout(target) {
+  const attackers = document.querySelector(".attackers");
+  const midfielders = document.querySelector(".midifielder");
+  switch (target) {
+    case "433":
+      if (attackers && midfielders) {
+        const attackerToMove = midfielders.querySelector(
+          ".squad__player:last-child"
+        );
+        if (attackerToMove) {
+          midfielders.removeChild(attackerToMove);
+          attackers.appendChild(attackerToMove);
+          console.log("Formation changed to 4-4-2.");
+          attackers.style.gridTemplateColumns = "repeat(3, 1fr)";
+          midfielders.style.gridTemplateColumns = "repeat(3, 1fr)";
+        } else {
+          console.error("No attackers available to move.");
+        }
+      } else {
+        console.error("Attackers or Midfielders div not found.");
+      }
+      break;
 
-//   updateFormationLayout(target);
-// });
-
-// function updateFormationLayout(target) {
-//   switch (target) {
-//     case "433":
-//       squadList.style.gridTemplateAreas = `
-//         ". lat lat fat fat rat rat ."
-//         ". lcm lcm cdm cdm rcm rcm ."
-//         "lb lb clb clb crb crb rb rb"
-//         ". . . gk gk . . ."
-//       `;
-//       break;
-
-//     case "442":
-//       squadList.style.gridTemplateAreas = `
-//         ". . lat lat fat fat . ."
-//         "lcm lcm cdm cdm rcm rcm rat rat"
-//         "lb lb clb clb crb crb rb rb"
-//         ". . . gk gk . . ."
-//       `;
-//       break;
-
-//     case "343":
-//       squadList.style.gridTemplateAreas = `
-//         ". lat lat fat fat rat rat ."
-//         "lcm lcm cdm cdm rcm rcm crb crb"
-//         ". lb lb clb clb rb rb ."
-//         ". . . gk gk . . ."
-//       `;
-//       break;
-
-//     default:
-//       squadList.style.gridTemplateAreas = `
-//         ". lat lat fat fat rat rat ."
-//         ". lcm lcm cdm cdm rcm rcm ."
-//         "lb lb clb clb crb crb rb rb"
-//         ". . . gk gk . . ."
-//       `;
-//       break;
-//   }
-// }
+    case "442":
+      if (attackers && midfielders) {
+        const attackerToMove = attackers.querySelector(
+          ".squad__player:last-child"
+        );
+        if (attackerToMove) {
+          attackers.removeChild(attackerToMove);
+          midfielders.appendChild(attackerToMove);
+          console.log("Formation changed to 4-4-2.");
+          attackers.style.gridTemplateColumns = "repeat(2, 1fr)";
+          midfielders.style.gridTemplateColumns = "repeat(4, 1fr)";
+        } else {
+          console.error("No attackers available to move.");
+        }
+      } else {
+        console.error("Attackers or Midfielders div not found.");
+      }
+      break;
+  }
+}
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
-
-const addSubstitutionData = () => {
-  localStorage.setItem("substitution", JSON.stringify(substitution));
+const savePlayers = () => {
+  localStorage.setItem("players", JSON.stringify(players));
 };
 
 const selectPosition = document.querySelector("#o-player-position");
@@ -159,27 +165,27 @@ selectPosition.addEventListener("change", (e) => {
   }
 });
 
-const savePlayers = () => {
-  localStorage.setItem("players", JSON.stringify(players));
-};
-
+// Add player function
 const playerForm = document.querySelector("#player__form");
-playerForm.addEventListener("submit", (e) => {
+const addPlayer = document.querySelector(".add__player-btn");
+const updatePlayer = document.querySelector(".update__player");
+addPlayer.addEventListener("click", (e) => {
   e.preventDefault();
   const player = {
     occupeid: false,
     id: Date.now().toString(),
     name: document.getElementById("o-player-name").value,
+    rating: document.getElementById("o-player-rating").value,
     nationalite: document.getElementById("o-player-nationalite").value,
     club: document.getElementById("o-player-club").value,
     league: document.getElementById("o-player-league").value,
     position: document.getElementById("o-player-position").value,
     pace: document.getElementById("o-player-pace").value,
+    shooting: document.getElementById("o-player-shooting").value,
     passing: document.getElementById("o-player-passing").value,
     dribbling: document.getElementById("o-player-dribbling").value,
     defending: document.getElementById("o-player-defending").value,
     physical: document.getElementById("o-player-physical").value,
-    rating: document.getElementById("o-player-rating").value,
   };
 
   players.push(player);
@@ -187,19 +193,86 @@ playerForm.addEventListener("submit", (e) => {
   savePlayers();
   showPlayerCard();
   playerForm.reset();
-  location.reload()
-
+  location.reload();
 });
 
-// deletePlayer()
+const deletePlayer = (playerId) => {
+  const playerIndex = players.findIndex((player) => player.id === playerId);
+  console.log(playerIndex);
+  if (playerIndex !== -1) {
+    players.splice(playerIndex, 1);
+    savePlayers();
+    // location.reload();
+    const playerCard = document
+      .querySelector(`[data-id="${playerId}"]`)
+      .closest(".player__card-pic");
+    playerCard.innerHTML = `
+    <img src="./images/card-templates/default-bg.png" width="100px" alt=""/>
+    `;
+  }
+};
+
+const editPlayer = (playerId) => {
+  const player = players.find((player) => player.id === playerId);
+  if (player) {
+    document.getElementById("o-player-name").value = player.name;
+    document.getElementById("o-player-nationalite").value = player.nationalite;
+    document.getElementById("o-player-club").value = player.club;
+    document.getElementById("o-player-league").value = player.league;
+    document.getElementById("o-player-position").value = player.position;
+    document.getElementById("o-player-pace").value = player.pace;
+    document.getElementById("o-player-shooting").value = player.shooting;
+    document.getElementById("o-player-passing").value = player.passing;
+    document.getElementById("o-player-dribbling").value = player.dribbling;
+    document.getElementById("o-player-defending").value = player.defending;
+    document.getElementById("o-player-physical").value = player.physical;
+    document.getElementById("o-player-rating").value = player.rating;
+
+    const addPlayerButton = document.querySelector(".add__player-btn");
+    const updatePlayerButton = document.querySelector(".update__player");
+    addPlayerButton.style.display = "none";
+    updatePlayerButton.style.display = "block";
+    const gk = document.querySelector("#squad__lb");
+    const rb = document.querySelector("#squad__rb");
+
+    if (gk && rb) {
+      gk.replaceWith(rb);
+    } else {
+      console.error("One or both elements not found in the DOM.");
+    }
+
+    updatePlayer.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      player.name = document.getElementById("o-player-name").value;
+      player.nationalite = document.getElementById(
+        "o-player-nationalite"
+      ).value;
+      player.club = document.getElementById("o-player-club").value;
+      player.league = document.getElementById("o-player-league").value;
+      player.position = document.getElementById("o-player-position").value;
+      player.pace = document.getElementById("o-player-pace").value;
+      player.shooting = document.getElementById("o-player-shooting").value;
+      player.passing = document.getElementById("o-player-passing").value;
+      player.dribbling = document.getElementById("o-player-dribbling").value;
+      player.defending = document.getElementById("o-player-defending").value;
+      player.physical = document.getElementById("o-player-physical").value;
+      player.rating = document.getElementById("o-player-rating").value;
+
+      addPlayerButton.style.display = "block";
+      updatePlayerButton.style.display = "none";
+      savePlayers();
+      showPlayerCard();
+      // location.reload()
+      playerForm.reset();
+    });
+  }
+};
+
+// show player card function
 
 const showPlayerCard = () => {
   const substitute = document.querySelector("#substitutes__list");
-  // const positions = document.querySelectorAll(".squad__position");
-  // positions.forEach((pos) => {
-  //   pos.classList.remove("active");
-  //   pos.innerHTML = "";
-  // });
 
   players.forEach((player) => {
     let playerCard = document.createElement("div");
@@ -346,11 +419,11 @@ const showPlayerCard = () => {
                       <div class="player__infos-stats">
                         <ul>
                           <li><span>PAC</span><span>${player.pace}</span></li>
-                          <li><span>SHO</span><span>${player.passing}</span></li>
-                          <li><span>PAS</span><span>${player.dribbling}</span></li>
-                          <li><span>DRI</span><span>${player.defending}</span></li>
-                          <li><span>DEF</span><span>${player.physical}</span></li>
-                          <li><span>PHY</span><span>${player.rating}</span></li>
+                          <li><span>SHO</span><span>${player.shooting}</span></li>
+                          <li><span>PAS</span><span>${player.passing}</span></li>
+                          <li><span>DRI</span><span>${player.dribbling}</span></li>
+                          <li><span>DEF</span><span>${player.defending}</span></li>
+                          <li><span>PHY</span><span>${player.physical}</span></li>
                         </ul>
                       </div>
                       <div class="player__infos-row">
@@ -438,7 +511,7 @@ const showPlayerCard = () => {
     //        </li>
     //    </ul>
     //        </div>
-    //            </div>      
+    //            </div>
     //    `;
     //     substituteContainer.appendChild(subPlayerCard);
     //   });
@@ -447,60 +520,60 @@ const showPlayerCard = () => {
       const positionElement = document.getElementById(positionId);
       if (positionElement.classList.contains("active")) {
         // renderSubstitutes(substitute);
-        const subPlayerCard = document.createElement("div");
-        subPlayerCard.className = "sub__list-item";
-        subPlayerCard.setAttribute("draggable", "true");
-        subPlayerCard.innerHTML = `
-        <div class="sub__right-part">
-               <div class="player__id-pic">
-                   <img src="./images/players-pics/vini.png" alt="" />
-               </div>
-               <div class="player__id-rating">
-                   <span>${player.rating}</span>
-                   <span>${player.position}</span>
-               </div>
-               </div>
-               <div class="sub__left-part">
-               <div class="player__id-name">
-                   <span>${player.name}</span>
-               </div>
-               <div class="player__sub-stats">
-                   <ul>
-                   <li><span>PAC</span><span>${player.pace}</span></li>
-                   <li><span>SHO</span><span>${player.passing}</span></li>
-                   <li><span>PAS</span><span>${player.dribbling}</span></li>
-                   <li><span>DRI</span><span>${player.defending}</span></li>
-                   <li><span>DEF</span><span>${player.physical}</span></li>
-                   <li><span>PHY</span><span>${player.rating}</span></li>
-                   </ul>
-               </div>
-               <div class="player__sub-row">
-           <ul>
-           <li>
-           <img
-               src=./images/flags/countries/${player.nationalite}.png
-               alt=""
-               id="player__infos-nationalite"
-           />
-           </li>
-           <li>
-           <img
-               src="./images/flags/leagues/${player.league}.png"
-               alt=""
-               id="player__infos-league"
-           />
-           </li>
-           <li>
-           <img
-               src="./images/flags/clubs/${player.club}.png"
-               alt=""
-               id="player__infos-club"
-           />
-           </li>
-       </ul>
-           </div>
-               </div>      
-       `;
+        //   const subPlayerCard = document.createElement("div");
+        //   subPlayerCard.className = "sub__list-item";
+        //   subPlayerCard.setAttribute("draggable", "true");
+        //   subPlayerCard.innerHTML = `
+        //   <div class="sub__right-part">
+        //          <div class="player__id-pic">
+        //              <img src="./images/players-pics/vini.png" alt="" />
+        //          </div>
+        //          <div class="player__id-rating">
+        //              <span>${player.rating}</span>
+        //              <span>${player.position}</span>
+        //          </div>
+        //          </div>
+        //          <div class="sub__left-part">
+        //          <div class="player__id-name">
+        //              <span>${player.name}</span>
+        //          </div>
+        //          <div class="player__sub-stats">
+        //              <ul>
+        //              <li><span>PAC</span><span>${player.pace}</span></li>
+        //              <li><span>SHO</span><span>${player.passing}</span></li>
+        //              <li><span>PAS</span><span>${player.dribbling}</span></li>
+        //              <li><span>DRI</span><span>${player.defending}</span></li>
+        //              <li><span>DEF</span><span>${player.physical}</span></li>
+        //              <li><span>PHY</span><span>${player.rating}</span></li>
+        //              </ul>
+        //          </div>
+        //          <div class="player__sub-row">
+        //      <ul>
+        //      <li>
+        //      <img
+        //          src=./images/flags/countries/${player.nationalite}.png
+        //          alt=""
+        //          id="player__infos-nationalite"
+        //      />
+        //      </li>
+        //      <li>
+        //      <img
+        //          src="./images/flags/leagues/${player.league}.png"
+        //          alt=""
+        //          id="player__infos-league"
+        //      />
+        //      </li>
+        //      <li>
+        //      <img
+        //          src="./images/flags/clubs/${player.club}.png"
+        //          alt=""
+        //          id="player__infos-club"
+        //      />
+        //      </li>
+        //  </ul>
+        //      </div>
+        //          </div>
+        //  `;
         substitute.appendChild(playerCard);
       } else {
         player.occupeid = true; // Mark as occupied
@@ -545,7 +618,14 @@ const showPlayerCard = () => {
         playerPosition("squad__fat", playerCard);
         break;
     }
-    // console.log(player);
+
+    // delete player event
+    const deleteBtn = playerCard.querySelector(".delete__player-icon");
+    deleteBtn.addEventListener("click", () => deletePlayer(player.id));
+
+    // edit player event
+    const editBtn = playerCard.querySelector(".edit__player-icon");
+    editBtn.addEventListener("click", () => editPlayer(player.id));
   });
   const settingIcon = document.querySelectorAll(".setting__icon");
   settingIcon.forEach((icon) => {
@@ -554,26 +634,6 @@ const showPlayerCard = () => {
       parent.classList.toggle("active");
     });
   });
-
-  const deleteBtn = document.querySelectorAll(".delete__player-icon");
-  deleteBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      let getPlayerId = btn.getAttribute("data-id");
-      console.log("hello");
-
-      const playerIndex = players.findIndex(
-        (player) => player.id === getPlayerId
-      );
-
-      if (playerIndex !== -1) {
-        players.splice(playerIndex, 1);
-        savePlayers();
-        location.reload();
-        console.log(`Player with ID ${getPlayerId} deleted successfully.`);
-      } else {
-        console.warn(`Player with ID ${getPlayerId} not found.`);
-      }
-    });
-  });
 };
+
 showPlayerCard();
