@@ -354,7 +354,7 @@ const showPlayerCard = () => {
                   />
                   <div class="player__stats">
                     <div class="player__picture">
-                      <img src="" alt="" class="player__picture-sr"/>
+                      <img src="./images/players-pics/default.png" alt="" class="player__picture-sr"/>
                     </div>
                      <div class="player__setting">
                       <div class="setting__icon">
@@ -525,7 +525,7 @@ const showPlayerCard = () => {
 
     // const renderSubstitutes = (substituteContainer) => {
     //   const availablePlayers = players.filter((player) => !player.occupeid);
-    //   substituteContainer.innerHTML = "";
+    //   // substituteContainer.innerHTML = "";
     //   availablePlayers.forEach((pl) => {
     //     const subPlayerCard = document.createElement("div");
     //     subPlayerCard.className = "sub__list-item";
@@ -581,67 +581,13 @@ const showPlayerCard = () => {
     //        </div>
     //            </div>
     //    `;
-    //     substituteContainer.appendChild(subPlayerCard);
+    //     substituteContainer.appendChild(playerCard);
     //   });
     // };
     const playerPosition = (positionId, playerCard) => {
       const positionElement = document.getElementById(positionId);
       if (positionElement.classList.contains("active")) {
         // renderSubstitutes(substitute);
-        //   const subPlayerCard = document.createElement("div");
-        //   subPlayerCard.className = "sub__list-item";
-        //   subPlayerCard.setAttribute("draggable", "true");
-        //   subPlayerCard.innerHTML = `
-        //   <div class="sub__right-part">
-        //          <div class="player__id-pic">
-        //              <img src="./images/players-pics/vini.png" alt="" />
-        //          </div>
-        //          <div class="player__id-rating">
-        //              <span>${player.rating}</span>
-        //              <span>${player.position}</span>
-        //          </div>
-        //          </div>
-        //          <div class="sub__left-part">
-        //          <div class="player__id-name">
-        //              <span>${player.name}</span>
-        //          </div>
-        //          <div class="player__sub-stats">
-        //              <ul>
-        //              <li><span>PAC</span><span>${player.pace}</span></li>
-        //              <li><span>SHO</span><span>${player.passing}</span></li>
-        //              <li><span>PAS</span><span>${player.dribbling}</span></li>
-        //              <li><span>DRI</span><span>${player.defending}</span></li>
-        //              <li><span>DEF</span><span>${player.physical}</span></li>
-        //              <li><span>PHY</span><span>${player.rating}</span></li>
-        //              </ul>
-        //          </div>
-        //          <div class="player__sub-row">
-        //      <ul>
-        //      <li>
-        //      <img
-        //          src=./images/flags/countries/${player.nationalite}.png
-        //          alt=""
-        //          id="player__infos-nationalite"
-        //      />
-        //      </li>
-        //      <li>
-        //      <img
-        //          src="./images/flags/leagues/${player.league}.png"
-        //          alt=""
-        //          id="player__infos-league"
-        //      />
-        //      </li>
-        //      <li>
-        //      <img
-        //          src="./images/flags/clubs/${player.club}.png"
-        //          alt=""
-        //          id="player__infos-club"
-        //      />
-        //      </li>
-        //  </ul>
-        //      </div>
-        //          </div>
-        //  `;
         substitute.appendChild(playerCard);
       } else {
         player.occupeid = true; // Mark as occupied
