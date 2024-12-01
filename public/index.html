@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../src/styles/compiler/css/main.min.css" />
+    <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <title>Ultimate Team</title>
   </head>
   <body>
     <header class="header__content">
       <div class="logo">
         <img src="./images/logo/logo.png" alt="" />
+      </div>
+      <div class="setting__bar">
+        <i class="fa-solid fa-sliders"></i>
       </div>
     </header>
     <main class="main__content">
@@ -180,13 +184,13 @@
               </div>
             </div>
           </div>
-          <div class="substitutes">
-            <div class="sub__heading">
-              <h3>Substitutes</h3>
-            </div>
-            <div class="substitutes__list">
-              <div id="substitutes__list" class="pitch"></div>
-            </div>
+        </div>
+        <div class="substitutes">
+          <div class="sub__heading">
+            <h3>Substitutes</h3>
+          </div>
+          <div class="substitutes__list">
+            <div id="substitutes__list" class="pitch"></div>
           </div>
         </div>
         <div class="player__state">
@@ -212,7 +216,7 @@
                 <form action="" id="player__form">
                   <div class="row">
                     <div class="player__name">
-                      <label for="o-player-name">Player Name</label>
+                      <label for="o-player-name">Name</label>
                       <input
                         type="text"
                         name="o-player-name"
@@ -222,7 +226,7 @@
                     </div>
                     <div class="player__nationalite">
                       <label for="o-player-nationalite"
-                        >Player Nationalite</label
+                        >Nationalite</label
                       >
                       <select
                         name="o-player-nationalite"
@@ -255,7 +259,7 @@
                   </div>
                   <div class="row">
                     <div class="player__club">
-                      <label for="o-player-club">Player Club</label>
+                      <label for="o-player-club">Club</label>
                       <select name="o-player-club" id="o-player-club">
                         <option disabled selected>Club</option>
                         <option value="madrid">Real Madrid</option>
@@ -267,7 +271,7 @@
                       </select>
                     </div>
                     <div class="player__league">
-                      <label for="o-player-league">Player League</label>
+                      <label for="o-player-league">League</label>
                       <select name="o-player-league" id="o-player-league">
                         <option disabled selected>League</option>
                         <option value="premier-league">Premier League</option>
@@ -278,7 +282,7 @@
                       </select>
                     </div>
                     <div class="player__position">
-                      <label for="o-player-league">Player Position</label>
+                      <label for="o-player-league">Position</label>
                       <select name="o-player-position" id="o-player-position">
                         <option disabled selected>Position</option>
                         <option value="gk">GK</option>
@@ -345,12 +349,12 @@
                       />
                     </div>
                   </div>
-                  <div class="row">
+                  <div class="">
                     <div class="add__player-btn">
                       <button type="submit">Add player</button>
                     </div>
                     <div class="add__player-btn update__player">
-                      <button>update player</button>
+                      <button>update</button>
                     </div>
                   </div>
                 </form>
@@ -364,10 +368,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script type="text/javascript" src="../src/js/vanilla-tilt.js"></script>
     <script src="../src/js/main.js"></script>
+    <!-- <script src="../src/js/validation.js"></script> -->
     <script type="text/javascript">
       VanillaTilt.init(document.querySelectorAll(".player__card-pic"), {
         max: 15,
-        speed: 100,
+        speed: 3000,
         scale: 1.1,
       });
     </script>

@@ -7,10 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
       animation: 350,
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
-      handle: ".squad__player",
+      // handle: ".squad__player",  
       group: "shared",
       swap: true,
-      onSort: reportActivity,
     });
   }
 
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
       animation: 350,
       chosenClass: "sortable-chosen",
       dragClass: "sortable-drag",
-      handle: ".squad__player",
+      // handle: ".squad__player",
       group: "shared",
       swap: true,
     });
@@ -53,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const goolkeeper = document.querySelector(".goolkeeper");
   if (goolkeeper) {
-    console.log("Initializing Sortable for pitch", goolkeeper); // Debugging log
+    console.log("Initializing Sortable for pitch", goolkeeper);
     new Sortable(goolkeeper, {
       animation: 400,
       chosenClass: "sortable-chosen",
@@ -63,9 +62,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-function reportActivity() {
-  console.log("The sort order has changed");
-}
+
+// add player menu toggle 
+
+const addContent = document.querySelector(".player__state");
+const barBtn = document.querySelector(".setting__bar");
+
+barBtn.addEventListener("click", ()=> {
+  addContent.classList.toggle("active")
+})
+
 
 const formation = document.querySelector("#formation");
 const squadList = document.querySelector(".squad__list-content");
@@ -232,14 +238,8 @@ const editPlayer = (playerId) => {
     const updatePlayerButton = document.querySelector(".update__player");
     addPlayerButton.style.display = "none";
     updatePlayerButton.style.display = "block";
-    const gk = document.querySelector("#squad__lb");
-    const rb = document.querySelector("#squad__rb");
+    addContent.classList.toggle("active")
 
-    if (gk && rb) {
-      gk.replaceWith(rb);
-    } else {
-      console.error("One or both elements not found in the DOM.");
-    }
 
     updatePlayer.addEventListener("click", (e) => {
       e.preventDefault();
@@ -263,7 +263,7 @@ const editPlayer = (playerId) => {
       updatePlayerButton.style.display = "none";
       savePlayers();
       showPlayerCard();
-      // location.reload()
+      location.reload()
       playerForm.reset();
     });
   }
@@ -286,7 +286,7 @@ const showPlayerCard = () => {
                   />
                   <div class="player__stats">
                     <div class="player__picture">
-                      <img src="./images/players-pics/benzema.webp" alt="" />
+                      <img src="./images/players-pics/valverde-2.webp" alt="" />
                     </div>
                      <div class="player__setting">
                       <div class="setting__icon">
