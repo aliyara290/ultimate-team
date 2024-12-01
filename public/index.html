@@ -239,7 +239,7 @@
               <div class="o-p-form" id="o-p-form">
                 <form action="" id="player__form">
                   <div class="row">
-                    <div class="player__name">
+                    <div class="player__name input__con">
                       <label for="o-player-name">Name</label>
                       <input
                         type="text"
@@ -247,8 +247,9 @@
                         id="o-player-name"
                         placeholder="Name"
                       />
+                      <p class="name__error"></p>
                     </div>
-                    <div class="player__nationalite">
+                    <div class="player__nationalite input__con">
                       <label for="o-player-nationalite">Nationalite</label>
                       <select
                         name="o-player-nationalite"
@@ -261,6 +262,7 @@
                         <option value="italy">Italian</option>
                         <option value="england">English</option>
                       </select>
+                      <p class="nationalite__error"></p>
                     </div>
                     <!-- <div class="player__pic">
                       <label for="o-player-pic">Picture</label>
@@ -270,17 +272,18 @@
                         id="o-player-pic"
                       /> 
                     </div> -->
-                    <div class="player__rating">
+                    <div class="player__rating input__con">
                       <label for="o-player-rating">Rating</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-rating"
                         id="o-player-rating"
                       />
+                      <p class="rating__error"></p>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="player__club">
+                  <div class="row row__states">
+                    <div class="player__club input__con">
                       <label for="o-player-club">Club</label>
                       <select name="o-player-club" id="o-player-club">
                         <option disabled selected>Club</option>
@@ -291,8 +294,9 @@
                         <option value="munchen">Bayern Munchen</option>
                         <option value="juventus">Junventus</option>
                       </select>
+                      <p class="club__error"></p>
                     </div>
-                    <div class="player__league">
+                    <div class="player__league input__con">
                       <label for="o-player-league">League</label>
                       <select name="o-player-league" id="o-player-league">
                         <option disabled selected>League</option>
@@ -302,8 +306,9 @@
                         <option value="ligue1">Ligue 1</option>
                         <option value="serieA">Serie A</option>
                       </select>
+                      <p class="league__error"></p>
                     </div>
-                    <div class="player__position">
+                    <div class="player__position input__con">
                       <label for="o-player-league">Position</label>
                       <select name="o-player-position" id="o-player-position">
                         <option disabled selected>Position</option>
@@ -319,59 +324,66 @@
                         <option value="rw">RW</option>
                         <option value="cf">CF</option>
                       </select>
+                      <p class="position__error"></p>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-pace">Pace</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-pace"
                         id="o-player-pace"
                       />
+                      <p class="pace__error"></p>
                     </div>
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-shooting">Shooting</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-shooting"
                         id="o-player-shooting"
                       />
+                      <p class="shooting__error"></p>
                     </div>
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-passing">Passing</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-passing"
                         id="o-player-passing"
                       />
+                      <p class="passing__error"></p>
                     </div>
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-dribbling">Dribbling</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-dribbling"
                         id="o-player-dribbling"
                       />
+                      <p class="dribbling__error"></p>
                     </div>
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-defending">Defending</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-defending"
                         id="o-player-defending"
                       />
+                      <p class="defending__error"></p>
                     </div>
-                    <div class="player__state-inp">
+                    <div class="player__state-inp input__con">
                       <label for="o-player-physical">Physical</label>
                       <input
-                        type="number"
+                        type="text"
                         name="o-player-physical"
                         id="o-player-physical"
                       />
+                      <p class="physical__error"></p>
                     </div>
                   </div>
-                  <div class="">
+                  <div class="submit__btn">
                     <div class="add__player-btn">
                       <button type="submit">Add player</button>
                     </div>
