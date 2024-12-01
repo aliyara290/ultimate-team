@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize Sortable for the pitch
   const pitch = document.querySelector("#substitutes__list");
   if (pitch) {
-    console.log("Initializing Sortable for pitch", pitch); // Debugging log
     new Sortable(pitch, {
       animation: 400,
       chosenClass: "sortable-chosen",
@@ -52,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const goolkeeper = document.querySelector(".goolkeeper");
   if (goolkeeper) {
-    console.log("Initializing Sortable for pitch", goolkeeper);
     new Sortable(goolkeeper, {
       animation: 400,
       chosenClass: "sortable-chosen",
@@ -98,12 +96,11 @@ function updateFormationLayout(target) {
     case "433":
       if (attackers && midfielders) {
         const attackerToMove = midfielders.querySelector(
-          ".squad__player:last-child"
+          "#squad__rat"
         );
         if (attackerToMove) {
           midfielders.removeChild(attackerToMove);
           attackers.appendChild(attackerToMove);
-          console.log("Formation changed to 4-4-2.");
           attackers.style.gridTemplateColumns = "repeat(3, 1fr)";
           midfielders.style.gridTemplateColumns = "repeat(3, 1fr)";
         } else {
@@ -117,12 +114,11 @@ function updateFormationLayout(target) {
     case "442":
       if (attackers && midfielders) {
         const attackerToMove = attackers.querySelector(
-          ".squad__player:last-child"
+          "#squad__rat"
         );
         if (attackerToMove) {
           attackers.removeChild(attackerToMove);
           midfielders.appendChild(attackerToMove);
-          console.log("Formation changed to 4-4-2.");
           attackers.style.gridTemplateColumns = "repeat(2, 1fr)";
           midfielders.style.gridTemplateColumns = "repeat(4, 1fr)";
         } else {
@@ -136,6 +132,7 @@ function updateFormationLayout(target) {
 }
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
+
 const savePlayers = () => {
   localStorage.setItem("players", JSON.stringify(players));
 };
@@ -171,12 +168,81 @@ selectPosition.addEventListener("change", (e) => {
   }
 });
 
+// Form validation function
+function validationForm() {
+  const nameInput = document.getElementById("o-player-name");
+  const name = nameInput.value.trim();
+  const nameRegex = /^[A-Za-z\s]+$/;
+  const nameError = document.querySelector(".name__error");
+
+  const selects = [
+    { id: "o-player-nationalite", error: ".nationalite__error" },
+    { id: "o-player-club", error: ".club__error" },
+    { id: "o-player-league", error: ".league__error" },
+    { id: "o-player-position", error: ".position__error" },
+  ];
+
+  const stats = [
+    { id: "o-player-rating", error: ".rating__error" },
+    { id: "o-player-pace", error: ".pace__error" },
+    { id: "o-player-shooting", error: ".shooting__error" },
+    { id: "o-player-passing", error: ".passing__error" },
+    { id: "o-player-dribbling", error: ".dribbling__error" },
+    { id: "o-player-defending", error: ".defending__error" },
+    { id: "o-player-physical", error: ".physical__error" },
+  ];
+
+  nameError.textContent = "";
+  selects.forEach(select => {
+    document.querySelector(select.error).textContent = "";
+  });
+  stats.forEach(stat => {
+    document.querySelector(stat.error).textContent = "";
+  });
+
+  // Validate name
+  if (!nameRegex.test(name)) {
+    nameError.textContent = "Enter a valid name";
+    return false;
+  }
+
+  // Validate dropdowns
+  for (let i = 0; i < selects.length; i++) {
+    const select = document.getElementById(selects[i].id);
+    if (!select.value || select.value.includes("Nationalite") || select.value.includes("Club") || select.value.includes("League") || select.value.includes("Position")) {
+      document.querySelector(selects[i].error).textContent = "Must select option";
+      return false;
+    }
+  }
+
+  for (let i = 0; i < stats.length; i++) {
+    const statInput = document.getElementById(stats[i].id);
+    const statValue = Number(statInput.value);
+    console.log(statValue)
+    const errorElement = document.querySelector(stats[i].error);
+  
+    if (!statValue || statValue < 10 || statValue > 99) {
+      errorElement.textContent = "must be between 10-99.";
+      return false;
+    }
+  }
+
+
+  return true;
+}
+
 // Add player function
 const playerForm = document.querySelector("#player__form");
 const addPlayer = document.querySelector(".add__player-btn");
 const updatePlayer = document.querySelector(".update__player");
 addPlayer.addEventListener("click", (e) => {
   e.preventDefault();
+
+  if (!validationForm()) {
+    return;
+  }
+
+
   const player = {
     occupeid: false,
     id: Date.now().toString(),
@@ -195,7 +261,6 @@ addPlayer.addEventListener("click", (e) => {
   };
 
   players.push(player);
-
   savePlayers();
   showPlayerCard();
   playerForm.reset();
@@ -204,7 +269,6 @@ addPlayer.addEventListener("click", (e) => {
 
 const deletePlayer = (playerId) => {
   const playerIndex = players.findIndex((player) => player.id === playerId);
-  console.log(playerIndex);
   if (playerIndex !== -1) {
     players.splice(playerIndex, 1);
     savePlayers();
@@ -243,6 +307,10 @@ const editPlayer = (playerId) => {
 
     updatePlayer.addEventListener("click", (e) => {
       e.preventDefault();
+
+      if (!validationForm()) {
+        return;
+      }
 
       player.name = document.getElementById("o-player-name").value;
       player.nationalite = document.getElementById(
@@ -286,7 +354,7 @@ const showPlayerCard = () => {
                   />
                   <div class="player__stats">
                     <div class="player__picture">
-                      <img src="./images/players-pics/valverde-2.webp" alt="" />
+                      <img src="" alt="" class="player__picture-sr"/>
                     </div>
                      <div class="player__setting">
                       <div class="setting__icon">
@@ -586,36 +654,58 @@ const showPlayerCard = () => {
     switch (player.position) {
       case "gk":
         playerPosition("squad__gk", playerCard);
+        const courtois = document.querySelector("#squad__gk .player__picture-sr");
+        courtois.src = "./images/players-pics/courtois.webp";
         break;
       case "clb":
         playerPosition("squad__clb", playerCard);
+        const alaba = document.querySelector("#squad__clb .player__picture-sr");
+        alaba.src = "./images/players-pics/alaba.webp";
         break;
       case "crb":
         playerPosition("squad__crb", playerCard);
+        const eder = document.querySelector("#squad__crb .player__picture-sr");
+        eder.src = "./images/players-pics/eder.webp";
         break;
       case "lb":
         playerPosition("squad__lb", playerCard);
+        const davies = document.querySelector("#squad__lb .player__picture-sr");
+        davies.src = "./images/players-pics/davies.webp";
         break;
       case "rb":
         playerPosition("squad__rb", playerCard);
+        const arnlod = document.querySelector("#squad__rb .player__picture-sr");
+        arnlod.src = "./images/players-pics/arnlod.webp";
         break;
       case "rcm":
         playerPosition("squad__rcm", playerCard);
+        const valverde = document.querySelector("#squad__rcm .player__picture-sr");
+        valverde.src = "./images/players-pics/valverde-2.webp";
         break;
       case "lcm":
         playerPosition("squad__lcm", playerCard);
+        const modric = document.querySelector("#squad__lcm .player__picture-sr");
+        modric.src = "./images/players-pics/modric.webp";
         break;
       case "am":
         playerPosition("squad__cdm", playerCard);
+        const jude = document.querySelector("#squad__cdm .player__picture-sr");
+        jude.src = "./images/players-pics/jude.webp";
         break;
       case "lw":
         playerPosition("squad__lat", playerCard);
+        const vini = document.querySelector("#squad__lat .player__picture-sr");
+        vini.src = "./images/players-pics/vini.webp";
         break;
       case "rw":
         playerPosition("squad__rat", playerCard);
+        const rodrygo = document.querySelector("#squad__rat .player__picture-sr");
+        rodrygo.src = "./images/players-pics/rodrygo.webp";
         break;
       case "cf":
         playerPosition("squad__fat", playerCard);
+        const mbappe = document.querySelector("#squad__fat .player__picture-sr");
+        mbappe.src = "./images/players-pics/mbappe.webp";
         break;
     }
 
