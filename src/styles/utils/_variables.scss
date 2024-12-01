@@ -30,20 +30,23 @@ img {
 
 ::-webkit-scrollbar {
     width: 1px;
-    }
-    
-    ::-webkit-scrollbar-track {
+    height: 1px;
+}
+
+::-webkit-scrollbar-track {
     background: transparent;
     box-shadow: none;
-    }
-    ::-webkit-scrollbar-thumb {
-    background: $color-primary;
-    
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary); 
     border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
+}
+
+::-webkit-scrollbar-thumb:hover {
     background: #fff;
-    }
-    ::-webkit-scrollbar-track-piece {
+}
+
+::-webkit-scrollbar-track-piece {
     border: none;
-    }
+}

@@ -57,10 +57,10 @@ a {
     left: 0;
     width: 100%;
     height: 100dvh;
-    background: url("/public/images/bg/stadium_background.jpg");
-    background-position: top;
-    background-size: cover;
-    background-repeat: no-repeat;
+    // background: url("/public/images/bg/stadium_background.jpg");
+    // background-position: top;
+    // background-size: cover;
+    // background-repeat: no-repeat;
     &::after {
       content: "";
       position: absolute;
@@ -401,18 +401,18 @@ a {
       }
     }
     .player__state.active {
-      display: block;
+      right: 0;
     }
     .player__state {
       height: 100vh;
-      width: 35%;
+      width: calc(35% + 50px);
       background-color: $color-transparent;
       overflow-y: auto;
       position: fixed;
       top: 0;
-      right: 0;
+      right: -100%;
+      transition: right .4s ease;
       padding-top: 7rem;
-      display: none;
       z-index: 174837427;
       @media (max-width: 1090px) {
         width: 50%;
